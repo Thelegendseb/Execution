@@ -420,10 +420,13 @@ namespace XLink.Contexts.Implementations
         // ==================== Context Helpers ====================
 
 
-            // summary: Load all playlists into a dictionary
-            // param: SpotifyClient spotify - the spotify client
-            // param: string userId - the user id
-            // returns: Dictionary<string, string> - the playlists
+        /// <summary>
+        /// Load all playlists into a dictionary.
+        /// </summary>
+        /// <param name="spotify">The Spotify client.</param>
+        /// <param name="userId">The user ID.</param>
+        /// <returns>A dictionary containing playlist information with keys and values as strings.</returns>
+
         static async Task<Dictionary<string, string>> LoadPlaylists(SpotifyClient spotify, string userId)
         {
             int offset = 0;
@@ -453,9 +456,11 @@ namespace XLink.Contexts.Implementations
 
         }
 
-        // summary: Get a string representation of a song
-        // param: FullTrack track - the track to get the string representation of
-        // returns: string - the string representation of the song
+        /// <summary>
+        /// Get a string representation of a song.
+        /// </summary>
+        /// <param name="track">The FullTrack object representing the song.</param>
+        /// <returns>A string representation of the song.</returns>
         static string SongToString(FullTrack track)
         {
             string song = track.Name + " | ";
@@ -468,10 +473,15 @@ namespace XLink.Contexts.Implementations
             return song;
         }
 
-        // summary: Refresh the access token
-        // param: string clientId - the client ID
-        // param: string clientSecret - the client secret
-        // returns: Task<string> - the access token
+        /// <summary>
+        /// Refreshes the access token.
+        /// </summary>
+        /// <param name="clientId">The client ID.</param>
+        /// <param name="clientSecret">The client secret.</param>
+        /// <returns>
+        /// A task representing the asynchronous operation.
+        /// The task result is a boolean indicating whether the operation was successful.
+        /// </returns>
         async Task<bool> RefreshAccessToken(string clientId, string clientSecret)
         {
             if (string.IsNullOrEmpty(this.RefreshToken))
@@ -526,11 +536,17 @@ namespace XLink.Contexts.Implementations
         }
 
 
-        // summary: Get an access token using PKCE (Proof Key for Code Exchange)
-        // param: string clientId - the client ID
-        // param: string clientSecret - the client secret
-        // param: string redirectUri - the redirect URI
-        // returns: Task<string> - the access token
+        /// <summary>
+        /// Gets an access token using PKCE (Proof Key for Code Exchange).
+        /// </summary>
+        /// <param name="clientId">The client ID.</param>
+        /// <param name="clientSecret">The client secret.</param>
+        /// <param name="redirectUri">The redirect URI.</param>
+        /// <param name="scope">The requested scope of access.</param>
+        /// <returns>
+        /// A task representing the asynchronous operation.
+        /// The task result is a Tuple containing the access token, refresh token, and duration.
+        /// </returns>
         static async Task<Tuple<string, string, string>> GetTokens(string clientId, string clientSecret, string redirectUri, string scope)
         {
             // Generate a random code verifier and derive the code challenge
@@ -572,13 +588,18 @@ namespace XLink.Contexts.Implementations
             return await ExchangeCodeForToken(clientId, clientSecret, redirectUri, codeVerifier, authorizationCode);
         }
 
-        // summary: Exchange the authorization code for an access token
-        // param: string clientId - the client ID
-        // param: string clientSecret - the client secret
-        // param: string redirectUri - the redirect URI
-        // param: string codeVerifier - the code verifier
-        // param: string authorizationCode - the authorization code
-        // returns: Task<string> - the access token
+        /// <summary>
+        /// Exchanges the authorization code for an access token.
+        /// </summary>
+        /// <param name="clientId">The client ID.</param>
+        /// <param name="clientSecret">The client secret.</param>
+        /// <param name="redirectUri">The redirect URI.</param>
+        /// <param name="codeVerifier">The code verifier.</param>
+        /// <param name="authorizationCode">The authorization code.</param>
+        /// <returns>
+        /// A task representing the asynchronous operation.
+        /// The task result is a Tuple containing the access token, refresh token, and duration.
+        /// </returns>
         static async Task<Tuple<string, string, string>> ExchangeCodeForToken(string clientId, string clientSecret, string redirectUri, string codeVerifier, string authorizationCode)
         {
             // Specify the Spotify token endpoint URI
@@ -624,8 +645,12 @@ namespace XLink.Contexts.Implementations
             }
         }
 
-        // summary: Helper method to generate a random code verifier
-        // returns: string - the code verifier
+        /// <summary>
+        /// Helper method to generate a random code verifier.
+        /// </summary>
+        /// <returns>
+        /// A string representing the generated code verifier.
+        /// </returns>
         static string GenerateCodeVerifier()
         {
             using (var rng = RandomNumberGenerator.Create())
@@ -636,9 +661,13 @@ namespace XLink.Contexts.Implementations
             }
         }
 
-        // summary: Helper method to generate a code challenge from a code verifier
-        // param: string codeVerifier - the code verifier
-        // returns: string - the code challenge
+        /// <summary>
+        /// Helper method to generate a code challenge from a code verifier.
+        /// </summary>
+        /// <param name="codeVerifier">The code verifier.</param>
+        /// <returns>
+        /// A string representing the generated code challenge.
+        /// </returns>
         static string GenerateCodeChallenge(string codeVerifier)
         {
             using (var sha256 = SHA256.Create())
@@ -648,9 +677,13 @@ namespace XLink.Contexts.Implementations
             }
         }
 
-        // summary: Helper method to base64 URL encode a byte array
-        // param: byte[] bytes - the byte array to encode
-        // returns: string - the base64 URL encoded string
+        /// <summary>
+        /// Helper method to base64 URL encode a byte array.
+        /// </summary>
+        /// <param name="bytes">The byte array to encode.</param>
+        /// <returns>
+        /// A string representing the base64 URL encoded string.
+        /// </returns>
         static string Base64UrlEncode(byte[] bytes)
         {
             return Convert.ToBase64String(bytes)
@@ -659,9 +692,13 @@ namespace XLink.Contexts.Implementations
                 .TrimEnd('=');
         }
 
-        // summary: Open a browser window
-        // param: string url - the URL to open
-        // returns: Process - the process of the browser window
+        /// <summary>
+        /// Opens a browser window.
+        /// </summary>
+        /// <param name="url">The URL to open in the browser.</param>
+        /// <returns>
+        /// The process representing the opened browser window.
+        /// </returns>
         static Process OpenBrowser(string url)
         {
             Process proc;

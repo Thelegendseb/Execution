@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace XLink.Contexts
 {
-    // summary: The type of the context
+    /// <summary>
+    /// The type of context
+    /// </summary>
     public enum ContextType
     {
         Misc,

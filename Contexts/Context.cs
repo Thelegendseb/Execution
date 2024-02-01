@@ -9,43 +9,66 @@ using XLink.Utility;
 
 namespace XLink.Contexts
 {
-    // summary: The base class for all contexts
+    /// <summary>
+    /// The base class for all contexts
+    /// </summary>
     public abstract class Context
     {
 
-        // summary: The name of the context
+        /// <summary>
+        /// The name of the context
+        /// </summary>
         protected string Name = "EmptyContext";
 
-        // summary: The type of the context
+        /// <summary>
+        /// The type of the context
+        /// </summary>
         protected ContextType ContextType = ContextType.Misc;
 
-        // summary: The actions for the context
+        /// <summary>
+        /// The actions for the context
+        /// </summary>
         protected Dictionary<XAction.RequestSchema, XAction.ResponseSchema> Actions;
 
-        // summary: Whether or not an action is running
+        /// <summary>
+        /// A flag to determine if an action is running
+        /// </summary>
         protected bool actionRunning = false;
 
-        // summary: The config values for the context
+        /// <summary>
+        /// The configuration values for the context
+        /// </summary>
         private Dictionary<string, string> ConfigValues;
 
-        // summary: Boolean flag to determine if the context is correctly initialized
-        public bool Initialized { get; private set; } = false;
-
-        // summary: Initialize the context
-        // returns: bool - whether or not the context was initialized successfully
+        /// <summary>
+        /// Initializes the context.
+        /// </summary>
+        /// <returns>
+        /// A boolean value indicating whether the context was initialized successfully.
+        /// </returns>
         public abstract bool Init();
 
-        // summary: Get the names of the config values for the context
-        // returns: String[] - the names of the config values for the context
+        /// <summary>
+        /// Gets the names of the config values for the context.
+        /// </summary>
+        /// <returns>
+        /// An array of strings representing the names of the config values for the context.
+        /// </returns>
         protected abstract string[] GetConfigValueNames();
 
-        // summary: Load the actions for the context
-        // returns: Dictionary<string, ActionSchema> - the actions for the context
+        /// <summary>
+        /// Loads the actions for the context.
+        /// </summary>
+        /// <returns>
+        /// A dictionary containing the actions for the context, with request and response schemas.
+        /// </returns>
         protected abstract Dictionary<XAction.RequestSchema, XAction.ResponseSchema> LoadActions();
 
-        // summary: Constructor for the context
-        // param: string name - the name of the context
-        // param: ContextType type - the type of the context
+        /// <summary>
+        /// Constructor for the context.
+        /// </summary>
+        /// <param name="name">The name of the context.</param>
+        /// <param name="type">The type of the context.</param>
         public Context(string name, ContextType type)
         {
             this.Name = name;
@@ -54,10 +77,14 @@ namespace XLink.Contexts
             this.Actions = this.LoadActions();
         }
 
-        // summary: Run an action from the context
-        // param: string actionName - the name of the action to run
-        // param: string args - the args to run the action with
-        // returns: bool - whether or not the action was successful
+        /// <summary>
+        /// Run an action from the context.
+        /// </summary>
+        /// <param name="actionName">The name of the action to run.</param>
+        /// <param name="args">The arguments to run the action with.</param>
+        /// <returns>
+        /// An XActionResponse indicating the result of the action execution.
+        /// </returns>
         public XActionResponse RunAction(string actionName, string args)
         {
             if (Actions.Keys.Any(action => action.Name == actionName))
@@ -74,10 +101,12 @@ namespace XLink.Contexts
             }
         }
 
-        // summary: Load an individual config value for the context
-        //param: dictionary<string, string> configValues - the config values for the context
-        //param: string key - the key of the config value to load
-        //param: IConfigurationSection section - the section of the config file for the context
+        /// <summary>
+        /// Load an individual config value for the context.
+        /// </summary>
+        /// <param name="key">The key of the config value to load.</param>
+        /// <param name="config">The dictionary to store the config values for the context.</param>
+        /// <param name="section">The section of the config file for the context.</param>
         protected void LoadConfigValue(string key, Dictionary<string, string> config, IConfigurationSection section)
         {
             string value = section[key];
@@ -89,9 +118,13 @@ namespace XLink.Contexts
             config.Add(key, value);
         }
 
-        // summary: Load the config values for the context
-        // param: IConfigurationSection section - the section of the config file for the context
-        // returns: Dictionary<string, string> - the config values for the context
+        /// <summary>
+        /// Load the config values for the context.
+        /// </summary>
+        /// <param name="section">The section of the config file for the context.</param>
+        /// <returns>
+        /// A dictionary containing the config values for the context.
+        /// </returns>
         private Dictionary<string, string> LoadConfigValues(IConfigurationSection section)
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
@@ -106,32 +139,49 @@ namespace XLink.Contexts
             return config;
         }
 
+
         // ==================== Getters ====================
 
-        // summary: Get a config value from the context
-        // param: string key - the key of the config value to get
-        // returns: string - the config value
+        /// <summary>
+        /// Get a config value from the context.
+        /// </summary>
+        /// <param name="key">The key of the config value to get.</param>
+        /// <returns>
+        /// A string representing the requested config value.
+        /// </returns>
         protected string GetConfigValue(string key)
         {
             return this.ConfigValues[key];
         }
 
-        // summary: Get the name of the context
-        // returns: string - the name of the context
+        /// <summary>
+        /// Get the name of the context.
+        /// </summary>
+        /// <returns>
+        /// A string representing the name of the context.
+        /// </returns>
         public string GetName()
         {
             return this.Name;
         }
 
-        // summary: Get the type of the context
-        // returns: ContextType - the type of the context
+        /// <summary>
+        /// Get the type of the context.
+        /// </summary>
+        /// <returns>
+        /// The type of the context as a ContextType enum.
+        /// </returns>
         public ContextType GetContextType()
         {
             return this.ContextType;
         }
 
-        // summary: Get the actions for the context
-        // returns: Dictionary<string, XAction.Schema> - the actions for the context
+        /// <summary>
+        /// Get the actions for the context.
+        /// </summary>
+        /// <returns>
+        /// A dictionary containing the actions for the context, with request and response schemas.
+        /// </returns>
         public Dictionary<XAction.RequestSchema, XAction.ResponseSchema> GetActions()
         {
             return this.Actions;

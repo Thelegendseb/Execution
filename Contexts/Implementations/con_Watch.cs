@@ -85,8 +85,15 @@ namespace XLink.Contexts.Implementations
             }
         }
 
+
         // ==================== Context Helpers ====================
 
+        /// <summary>
+        /// Generates a verbose string representation of the current time.
+        /// </summary>
+        /// <returns>
+        /// A string representing the current time in a verbose format.
+        /// </returns>
         private string GetVerboseString()
         {
             

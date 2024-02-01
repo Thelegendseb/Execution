@@ -5,32 +5,41 @@ using System.Text;
 using System.Threading.Tasks;
 
 using XLink.Actions;
-using XLink.Contexts;
 using XLink.Contexts.Implementations;
 using XLink.Utility;
 
 namespace XLink.Contexts
 {
-    // summary: A class to manage all the running contexts and their executions
+    /// <summary>
+    /// A class to manage all the running contexts and their executions
+    /// </summary>
     public class ContextManager
     {
 
-        // summary: The list of contexts
+        /// <summary>
+        /// The list of contexts
+        /// </summary>
         private List<Context> Contexts;
 
-        // summary: Constructor for the context manager
+        /// <summary>
+        /// Constructor for the context manager
+        /// </summary>
         public ContextManager()
         {
             Contexts = new List<Context>();
         }
 
-        // summary: The initialization function for the context manager
+        /// <summary>
+        /// The initialization function for the context manager.
+        /// </summary>
         public void Init()
         {
             LoadContexts();
         }
 
-        // summary: Load all the contexts
+        /// <summary>
+        /// Load all the contexts
+        /// </summary>
         private void LoadContexts()
         {
 
@@ -43,10 +52,15 @@ namespace XLink.Contexts
 
         }
 
-        // summary: Execute an action
-        // param: string actionName - the name of the action to execute
-        // param: string args - the args to execute the action with
-        // returns: XActionResponse - the response from the action
+        /// <summary>
+        /// Execute an action.
+        /// </summary>
+        /// <param name="contextName">The name of the context.</param>
+        /// <param name="actionName">The name of the action to execute.</param>
+        /// <param name="args">The arguments to execute the action with.</param>
+        /// <returns>
+        /// An XActionResponse representing the response from the action.
+        /// </returns>
         public XActionResponse Execute(string contextName, string actionName, string args)
         {
 
@@ -63,9 +77,13 @@ namespace XLink.Contexts
 
         }
 
-        // summary: attempting to add a single context to the context manager
-        // param: TContext - the context to add
-        // returns: bool - whether or not the context was added
+        /// <summary>
+        /// Attempting to add a single context to the context manager.
+        /// </summary>
+        /// <typeparam name="IContext">The type of context to add, must derive from Context and have a default constructor.</typeparam>
+        /// <returns>
+        /// A boolean value indicating whether or not the context was added successfully.
+        /// </returns>
         private bool LoadContext<IContext>() where IContext : Context, new()
         {
             IContext context = new IContext();
@@ -84,8 +102,12 @@ namespace XLink.Contexts
             }
         }
 
-        // summary: get a list of all the contexts's actions and the context they belong to
-        // returns: Dictionary<string,List<string>> - the list of contexts and their actions
+        /// <summary>
+        /// Get a list of all the context's actions and the context they belong to.
+        /// </summary>
+        /// <returns>
+        /// A dictionary containing context names as keys and lists of action names as values.
+        /// </returns>
         public Dictionary<string, List<string>> GetActions()
         {
             Dictionary<string, List<string>> actions = new Dictionary<string, List<string>>();
