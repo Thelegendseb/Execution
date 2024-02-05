@@ -61,14 +61,16 @@ namespace XLink.Contexts
         /// <summary>
         /// Execute an action.
         /// </summary>
-        /// <param name="contextName">The name of the context.</param>
-        /// <param name="actionName">The name of the action to execute.</param>
-        /// <param name="args">The arguments to execute the action with.</param>
+        /// <param name="query">The query for the context to run.</param>
         /// <returns>
         /// An XActionResponse representing the response from the action.
         /// </returns>
-        public XActionResponse Execute(string contextName, string actionName, string args)
+        public XActionResponse Execute(Query query)
         {
+
+            string contextName = query.ContextName;
+            string actionName = query.ActionName;
+            string args = query.Args;
 
             Context context = Contexts.Find(x => x.GetName().ToUpper() == contextName.ToUpper());
             // Check if the context exists

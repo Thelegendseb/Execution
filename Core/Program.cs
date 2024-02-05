@@ -24,37 +24,16 @@ namespace XLink.Core
             while (true)
             {
 
-                string command = Console.ReadLine();
-                ClearCurrentConsoleLine();
-                Query query = Parser.Parse(command);
-                if (query == null)
-                {
-                    continue;
-                }
-                XActionResponse result = contextManager.Execute(query.ContextName, query.ActionName, query.Args);
+                Query query = Parser.Parse(Console.ReadLine());
 
-                if(result == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    if (result.Success)
-                    {
-                        if (result.Result.Contains("\n"))
-                        {
-                            result.Result = result.Result.Substring(0, result.Result.IndexOf("\n")) + "...";
-                            if (result.Result.Length > 15)
-                            {
-                                result.Result = result.Result.Substring(0, 15) + "...";
-                            }
-                        }
-                    }
-                }
+                if (query == null) {continue;}
 
-                Logger.Log(result);
+                XActionResponse result = contextManager.Execute(query);
 
-                Console.WriteLine();
+                if(result == null) { continue; }
+
+                OutputResult(result);
+
             }
 
             static void ClearCurrentConsoleLine()
@@ -63,6 +42,29 @@ namespace XLink.Core
                 Console.SetCursorPosition(0, Console.CursorTop);
                 Console.Write(new string(' ', Console.WindowWidth));
                 Console.SetCursorPosition(0, currentLineCursor);
+            }
+
+            static void FormatResult(XActionResponse result)
+            {
+                if (result.Success)
+                {
+                    if (result.Result.Contains("\n"))
+                    {
+                        result.Result = result.Result.Substring(0, result.Result.IndexOf("\n")) + "...";
+                        if (result.Result.Length > 15)
+                        {
+                            result.Result = result.Result.Substring(0, 15) + "...";
+                        }
+                    }
+                }
+            }
+
+            static void OutputResult(XActionResponse result)
+            {
+                FormatResult(result);
+                ClearCurrentConsoleLine();
+                Logger.Log(result);
+                Console.WriteLine();
             }
 
         }

@@ -37,7 +37,7 @@ namespace XLink.Utility
     }
 
     /// <summary>
-    /// The response from the parser
+    /// The input object for excecuting an action through the context manager
     /// </summary>
     public class Query
     {
