@@ -22,11 +22,17 @@ namespace XLink.Contexts
         private List<Context> Contexts;
 
         /// <summary>
+        /// The filter for the context manager
+        /// </summary>
+        private ContextFilter Filter;
+
+        /// <summary>
         /// Constructor for the context manager
         /// </summary>
         public ContextManager()
         {
             Contexts = new List<Context>();
+            Filter = new ContextFilter();
         }
 
         /// <summary>
@@ -65,16 +71,29 @@ namespace XLink.Contexts
         {
 
             Context context = Contexts.Find(x => x.GetName().ToUpper() == contextName.ToUpper());
+            // Check if the context exists
             if (context == null)
             {
-                Logger.Log("Context not found: " + contextName, LogLevel.Info);
+                Logger.Log("Context not found: " + contextName, LogLevel.Warning);
                 return null;
             }
-            else
+
+            // Check if the action exists
+            if (!(context.GetActions().Keys.Any(action => action.Name == actionName)))
             {
-                return context.RunAction(actionName, args);
+                Logger.Log("Action not found: " + actionName + " in context: " + contextName, LogLevel.Warning);
+                return null;
             }
 
+            // Check if the action is allowed by the filter
+            if (!Filter.Allows(actionName, context))
+            {
+                Logger.Log("Action not allowed by filter: " + actionName, LogLevel.Warning);
+                return null;
+            }
+
+            return context.RunAction(actionName, args);
+           
         }
 
         /// <summary>
@@ -116,6 +135,16 @@ namespace XLink.Contexts
                 actions.Add(context.GetName(), context.GetActions().Keys.Select(x => x.Name).ToList());
             }
             return actions;
+        }
+
+        /// <summary>
+        /// Apply a filter to the context manager.
+        /// </summary>
+        /// <param name="filter">The filter to apply.</param>
+        public void ApplyFilter(ContextFilter filter)
+        {
+            this.Filter = filter;
+            Logger.Log("Filter applied to context manager", LogLevel.Info);
         }
 
     }

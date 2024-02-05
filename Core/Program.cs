@@ -13,15 +13,13 @@ namespace XLink.Core
 
             contextManager.Init();
 
-            //Console.WriteLine();
-            //foreach (KeyValuePair<string,List<string>> kvp in contextManager.GetActions())
-            //{
-            //    foreach (string action in kvp.Value)
-            //    {
-            //        Console.WriteLine(kvp.Key + " " + action);
-            //    }
-            //}
-            //Console.WriteLine();
+            ContextFilter filter = new ContextFilter 
+            { 
+                ArgEntry = true,
+                ResultAcceptance = true 
+            };
+
+            contextManager.ApplyFilter(filter);
 
             while (true)
             {
@@ -41,12 +39,15 @@ namespace XLink.Core
                 }
                 else
                 {
-                    if (result.Result.Contains("\n"))
-                    {   
-                        result.Result = result.Result.Substring(0, result.Result.IndexOf("\n")) + "...";
-                        if (result.Result.Length > 15)
+                    if (result.Success)
+                    {
+                        if (result.Result.Contains("\n"))
                         {
-                            result.Result = result.Result.Substring(0, 15) + "...";
+                            result.Result = result.Result.Substring(0, result.Result.IndexOf("\n")) + "...";
+                            if (result.Result.Length > 15)
+                            {
+                                result.Result = result.Result.Substring(0, 15) + "...";
+                            }
                         }
                     }
                 }

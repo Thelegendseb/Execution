@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace XLink.Utility
 {
-    // summary: The parser for the input command
+    /// <summary>
+    /// The parser for the input command
+    /// </summary>
     public static class Parser
     {
 
-        // summary: Parse the input command
-        // param: string input - the input command
-        // returns: Query - the response from the parser
+        /// <summary>
+        /// Parse the input command
+        /// </summary>
+        /// <param name="input">The input command</param>
+        /// <returns>The response from the parser</returns>
         public static Query Parse(string input)
         {
 
@@ -32,16 +36,25 @@ namespace XLink.Utility
 
     }
 
-    // summary: The response from the parser
+    /// <summary>
+    /// The response from the parser
+    /// </summary>
     public class Query
     {
-        // summary: The name of the context
+
+        /// <summary>
+        /// The name of the context
+        /// </summary>
         public string ContextName { get; set; }
 
-        // summary: The name of the action
+        /// <summary>
+        /// The name of the action
+        /// </summary>
         public string ActionName { get; set; }
 
-        // summary: The arguments used to run the action
+        /// <summary>
+        /// The arguments used to run the action
+        /// </summary>
         public string Args { get; set; }
 
     }

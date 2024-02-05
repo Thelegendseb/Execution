@@ -87,18 +87,11 @@ namespace XLink.Contexts
         /// </returns>
         public XActionResponse RunAction(string actionName, string args)
         {
-            if (Actions.Keys.Any(action => action.Name == actionName))
-            {
                 XAction.ResponseSchema action = this.Actions.First(x => x.Key.Name == actionName).Value;
                 this.actionRunning = true;
                 XActionResponse result = action(args);
                 this.actionRunning = false;
                 return result;
-            }
-            else
-            {
-                return new XActionResponse(this.GetName(), actionName, args, false, "Action not found in context '" + this.Name + "'.", "");
-            }
         }
 
         /// <summary>
